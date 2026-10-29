@@ -50,7 +50,7 @@
 
   .hero { padding: 64px 0 40px; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: end; border-bottom: 1px solid var(--line); }
   .kicker { font: 600 15px/1 "SF Mono", Menlo, monospace; color: var(--accent); margin-bottom: 14px; }
-  .by { color: var(--fg); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent); }
+  .by { color: var(--fg); font-weight: inherit; text-decoration: none; border-bottom: 2px solid var(--accent); }
   .about { display: flex; gap: 26px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; box-shadow: var(--shadow); }
   .avatar { flex: none; width: 112px; height: 112px; border-radius: 50%; object-fit: cover; border: 3px solid var(--line); }
   .about b { font: 700 26px/1.2 Georgia, "Times New Roman", serif; display: block; margin-bottom: 6px; }
@@ -58,14 +58,14 @@
   .about .line a { color: var(--fg); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent-soft); }
   .about blockquote { margin: 12px 0 14px; padding-left: 14px; border-left: 3px solid var(--accent); font: italic 17px/1.5 Georgia, "Times New Roman", serif; color: var(--fg); max-width: 560px; }
   .about cite { font-style: normal; font-size: 14px; color: var(--muted); white-space: nowrap; }
-  .icons { display: flex; gap: 12px; }
+  .icons { display: flex; gap: 12px; margin-top: 16px; }
   .icons a { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 11px; display: grid; place-items: center; color: var(--fg); }
   .icons a:hover { border-color: var(--accent); color: var(--accent); }
   .icons svg { width: 20px; height: 20px; }
   @media (max-width: 560px) { .about { flex-direction: column; } .avatar { width: 88px; height: 88px; } }
   .hero h1 { font: 700 52px/1.05 Georgia, "Times New Roman", serif; margin: 0 0 10px; }
   .role { color: var(--accent); font-weight: 700; font-size: 18px; margin: 0 0 22px; }
-  .hero blockquote { margin: 0 0 14px; padding-left: 16px; border-left: 3px solid var(--accent); font: italic 22px/1.4 Georgia, "Times New Roman", serif; }
+  .hero blockquote { margin: 26px 0 0; padding-left: 16px; border-left: 3px solid var(--accent); font: italic 20px/1.5 Georgia, "Times New Roman", serif; max-width: 660px; }
   .hero cite { font-style: normal; font-size: 15px; color: var(--muted); white-space: nowrap; }
   .hero p { color: var(--muted); max-width: 660px; margin: 0; font-size: 18px; }
   .links { display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 700; }
@@ -100,6 +100,8 @@
   .item .row { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; font-weight: 700; }
   .item .row a { text-decoration: none; border-bottom: 2px solid var(--accent-soft); }
   .item .row a:hover { border-color: var(--accent); }
+  .grid.two { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+  .subhead { color: var(--muted); margin: 26px 0 14px; font-size: 16px; }
   .item.feature { grid-column: 1 / -1; border-left: 4px solid var(--accent); }
   .item.feature h3 { font: 700 21px/1.3 Georgia, "Times New Roman", serif; }
 
@@ -128,7 +130,9 @@
   <header class="hero">
     <div>
       <h1>Learn Bitcoin by building it.</h1>
-      <p>Books, research and tools for learning and building Bitcoin, made by <a class="by" href="#about">Aaron Zhang</a>. Every idea comes as code you can run.</p>
+      <p>Books, research and tools for learning and building Bitcoin, made by <a class="by" href="#about">Aaron Zhang</a>.</p>
+      <p>Every idea comes as code you can run.</p>
+      <blockquote>I rebuild Bitcoin piece by piece until I understand it. Everything here is what that work leaves behind. <cite>— Aaron Zhang</cite></blockquote>
     </div>
   </header>
 
@@ -164,7 +168,7 @@
     </div>
 
     <h2>Booklets</h2>
-    <p class="intro">Short, single-idea guides.</p>
+    <p class="intro">Small books that teach one mechanism end to end, Feynman-style, with the experiments behind them.</p>
     <div class="grid">
       <div class="item"><div class="kind">Idea-book · playground</div>
         <h3><a href="https://sighash.bitcoincoding.dev/">What a Signature Can See</a></h3>
@@ -189,15 +193,25 @@
         <h3><a href="https://delvingbitcoin.org/t/2659">Is CSFS+CAT already a general covenant primitive?</a></h3>
         <p>Three on-chain demonstrations, and an observation for discussion.</p>
         <div class="row"><a href="https://delvingbitcoin.org/t/2659">Delving Bitcoin</a><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7003839">SSRN</a></div></div>
-      <div class="item"><div class="kind">Experiment</div>
-        <h3><a href="https://github.com/aaron-recompile/binary-outcome-demo">Binary outcome on signet</a></h3>
-        <p>CAT + CSFS + CTV in one Taproot contract, settled by an oracle-signed price.</p></div>
-      <div class="item"><div class="kind">Experiment</div>
+    </div>
+    <p class="subhead">Experiments that take a published design and test it on chain: where the idea holds, and where it breaks.</p>
+    <div class="grid two">
+      <div class="item"><div class="kind">Builds on Christian Decker's eltoo</div>
+        <h3><a href="https://github.com/aaron-recompile/eltoo-apo-state-chain">Eltoo state chain with APO + CTV</a></h3>
+        <p>Three state updates and a CTV settlement on signet. One APO signature spends two different coins without re-signing.</p>
+        <div class="row"><a href="https://github.com/aaron-recompile/eltoo-apo-state-chain">Code</a><a href="https://delvingbitcoin.org/t/2413">Delving Bitcoin</a></div></div>
+      <div class="item"><div class="kind">Answers Robin Linus · BitVM bridges</div>
+        <h3><a href="https://github.com/aaron-recompile/sighash-prevout-binding">Spend A only if B is co-spent</a></h3>
+        <p>Binds a tapscript spend to a specific second UTXO through sha_prevouts, the input check a BitVM bridge connector needs. Two confirmed spends; a swapped input is rejected.</p>
+        <div class="row"><a href="https://github.com/aaron-recompile/sighash-prevout-binding">Code</a><a href="https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29">Delving Bitcoin</a></div></div>
+      <div class="item"><div class="kind">Answers Jeremy Rubin · rekey ladders</div>
         <h3><a href="https://github.com/aaron-recompile/rekey-ladder-theory">Rekey ladder theory</a></h3>
-        <p>Adversarial tests for CSFS rekey constructions: when binding holds and when it breaks.</p></div>
-      <div class="item"><div class="kind">Experiment</div>
+        <p>Adversarial tests for the CSFS rekey and ladder constructions from Rubin and Rearden's LN-Symmetry post: when binding holds and when it breaks.</p>
+        <div class="row"><a href="https://github.com/aaron-recompile/rekey-ladder-theory">Code</a></div></div>
+      <div class="item"><div class="kind">Groundwork</div>
         <h3><a href="https://github.com/aaron-recompile/bitcoin-signature-binding">What a Schnorr signature verifies against</a></h3>
-        <p>CSFS, IK+CSFS and CHECKSIG side by side, with checked-in outputs.</p></div>
+        <p>CSFS, IK+CSFS and CHECKSIG side by side, with checked-in outputs. The base the three experiments above stand on.</p>
+        <div class="row"><a href="https://github.com/aaron-recompile/bitcoin-signature-binding">Code</a></div></div>
     </div>
   </section>
 
@@ -236,7 +250,6 @@
         <b>Aaron Zhang</b>
         <p class="line">Author of <a href="/mastering-taproot-interactive/">Mastering Taproot</a> and <a href="/bitcoin-from-scratch-interactive/">Bitcoin from Scratch</a>.</p>
         <p class="line">Bitcoin Developer, Educator and Investor.</p>
-        <blockquote>I rebuild Bitcoin piece by piece until I understand it. Everything here is what that work leaves behind.</blockquote>
         <div class="icons">
           <a href="https://github.com/aaron-recompile" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
           <a href="https://medium.com/@aaron.recompile" aria-label="Medium" title="Medium"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 12a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Zm7.4 0c0 3.54-1.51 6.42-3.38 6.42S14.14 15.54 14.14 12s1.51-6.42 3.38-6.42 3.38 2.88 3.38 6.42ZM24 12c0 3.17-.53 5.75-1.19 5.75s-1.19-2.58-1.19-5.75.53-5.75 1.19-5.75S24 8.83 24 12Z"/></svg></a>
