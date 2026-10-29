@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bitcoincoding.dev — Learn Bitcoin by building it</title>
+<meta name="description" content="Learn Bitcoin by building it: runnable books, research and tools for learning and building Bitcoin, made by Aaron Zhang.">
+<link rel="canonical" href="https://bitcoincoding.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bitcoincoding.dev">
+<meta property="og:title" content="bitcoincoding.dev — Learn Bitcoin by building it">
+<meta property="og:description" content="Runnable books, research and tools for learning and building Bitcoin, made by Aaron Zhang.">
+<meta property="og:url" content="https://bitcoincoding.dev/">
+<meta property="og:image" content="https://bitcoincoding.dev/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aaron_recompile">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebSite","@id":"https://bitcoincoding.dev/#site","name":"bitcoincoding.dev","alternateName":"Bitcoin Coding","url":"https://bitcoincoding.dev/","description":"Learn Bitcoin by building it: runnable books, research and tools.","publisher":{"@id":"https://bitcoincoding.dev/#aaron"}},
+ {"@type":"Person","@id":"https://bitcoincoding.dev/#aaron","name":"Aaron Zhang","alternateName":"Aaron Recompile","jobTitle":"Bitcoin Developer, Educator and Investor","image":"https://bitcoincoding.dev/assets/aaron.jpg","url":"https://bitcoincoding.dev/#about","sameAs":["https://github.com/aaron-recompile","https://medium.com/@aaron.recompile","https://x.com/aaron_recompile","https://archive.bitcoincoding.dev/"]},
+ {"@type":"Book","name":"Bitcoin from Scratch","url":"https://bitcoincoding.dev/bitcoin-from-scratch-interactive/","author":{"@id":"https://bitcoincoding.dev/#aaron"},"bookFormat":"https://schema.org/EBook","isAccessibleForFree":true,"inLanguage":"en","image":"https://bitcoincoding.dev/assets/bfs-cover.jpg"},
+ {"@type":"Book","name":"Mastering Taproot","url":"https://bitcoincoding.dev/mastering-taproot-interactive/","author":{"@id":"https://bitcoincoding.dev/#aaron"},"bookFormat":"https://schema.org/EBook","isAccessibleForFree":true,"inLanguage":"en","image":"https://bitcoincoding.dev/assets/taproot-cover.jpg"}
+]}
+</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1d2129; --muted: #5d6573; --line: #e4e1da; --card: #ffffff;
+    --accent: #c9821a; --accent-soft: #f6e7cc; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1218; --fg: #eceef2; --muted: #9aa3b2; --line: #232a35; --card: #161b24;
+      --accent: #f5b83d; --accent-soft: #3a2f17; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .serif { font-family: Georgia, "Times New Roman", serif; }
+
+  nav { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
+  .site { font: 600 15px/1 "SF Mono", Menlo, monospace; color: var(--accent); text-decoration: none; white-space: nowrap; }
+  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 15px; font-weight: 600; overflow-x: auto; }
+  nav ul a { text-decoration: none; color: var(--muted); white-space: nowrap; }
+  nav ul a:hover { color: var(--fg); }
+
+  .hero { padding: 64px 0 40px; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: end; border-bottom: 1px solid var(--line); }
+  .kicker { font: 600 15px/1 "SF Mono", Menlo, monospace; color: var(--accent); margin-bottom: 14px; }
+  .by { color: var(--fg); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent); }
+  .about { display: flex; gap: 26px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; box-shadow: var(--shadow); }
+  .avatar { flex: none; width: 112px; height: 112px; border-radius: 50%; object-fit: cover; border: 3px solid var(--line); }
+  .about b { font: 700 26px/1.2 Georgia, "Times New Roman", serif; display: block; margin-bottom: 6px; }
+  .about .line { margin: 0; color: var(--muted); }
+  .about .line a { color: var(--fg); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent-soft); }
+  .about blockquote { margin: 12px 0 14px; padding-left: 14px; border-left: 3px solid var(--accent); font: italic 17px/1.5 Georgia, "Times New Roman", serif; color: var(--fg); max-width: 560px; }
+  .about cite { font-style: normal; font-size: 14px; color: var(--muted); white-space: nowrap; }
+  .icons { display: flex; gap: 12px; }
+  .icons a { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 11px; display: grid; place-items: center; color: var(--fg); }
+  .icons a:hover { border-color: var(--accent); color: var(--accent); }
+  .icons svg { width: 20px; height: 20px; }
+  @media (max-width: 560px) { .about { flex-direction: column; } .avatar { width: 88px; height: 88px; } }
+  .hero h1 { font: 700 52px/1.05 Georgia, "Times New Roman", serif; margin: 0 0 10px; }
+  .role { color: var(--accent); font-weight: 700; font-size: 18px; margin: 0 0 22px; }
+  .hero blockquote { margin: 0 0 14px; padding-left: 16px; border-left: 3px solid var(--accent); font: italic 22px/1.4 Georgia, "Times New Roman", serif; }
+  .hero cite { font-style: normal; font-size: 15px; color: var(--muted); white-space: nowrap; }
+  .hero p { color: var(--muted); max-width: 660px; margin: 0; font-size: 18px; }
+  .links { display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 700; }
+  .links a { text-decoration: none; border-bottom: 2px solid var(--accent-soft); width: fit-content; }
+  .links a:hover { border-color: var(--accent); }
+
+  section { padding-top: 12px; scroll-margin-top: 64px; }
+  h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 44px 0 6px; font-weight: 700; }
+  .intro { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
+
+  .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); gap: 24px; }
+  .book { display: grid; grid-template-columns: 150px 1fr; gap: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+  .cover { display: block; width: 150px; aspect-ratio: 2 / 3; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+  .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .book h3 { font: 700 24px/1.2 Georgia, "Times New Roman", serif; margin: 2px 0 6px; }
+  .book h3 a, .item h3 a { text-decoration: none; }
+  .book h3 a:hover, .item h3 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 12px; font-size: 15.5px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .badge { font-size: 12.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--fg); white-space: nowrap; }
+  .badge.plain { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { font-size: 14.5px; font-weight: 700; text-decoration: none; padding: 8px 14px; border-radius: 9px; border: 1px solid var(--line); background: var(--card); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #161616; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); gap: 16px; }
+  .item { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .item .kind { font: 700 11.5px/1 "SF Mono", Menlo, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .item h3 { font-size: 17px; line-height: 1.35; margin: 0 0 6px; }
+  .item p { color: var(--muted); font-size: 15px; margin: 0 0 10px; flex: 1; }
+  .item .where { font: 13px "SF Mono", Menlo, monospace; color: var(--muted); }
+  .item .row { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; font-weight: 700; }
+  .item .row a { text-decoration: none; border-bottom: 2px solid var(--accent-soft); }
+  .item .row a:hover { border-color: var(--accent); }
+  .item.feature { grid-column: 1 / -1; border-left: 4px solid var(--accent); }
+  .item.feature h3 { font: 700 21px/1.3 Georgia, "Times New Roman", serif; }
+
+  footer { margin: 64px 0 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; gap: 24px; }
+    .hero h1 { font-size: 40px; }
+    .links { flex-direction: row; flex-wrap: wrap; gap: 16px; }
+    nav ul { gap: 16px; }
+  }
+  @media (max-width: 560px) {
+    .book { grid-template-columns: 100px 1fr; gap: 16px; padding: 16px; }
+    .cover { width: 100px; }
+    .book h3 { font-size: 20px; }
+    nav .site { display: none; }
+  }
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="site" href="#">bitcoincoding.dev</a>
+  <ul><li><a href="#books">Books</a></li><li><a href="#research">Research</a></li><li><a href="#writing">Writing</a></li><li><a href="#tools">Tools</a></li><li><a href="#about">About</a></li></ul>
+</div></nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <h1>Learn Bitcoin by building it.</h1>
+      <p>Books, research and tools for learning and building Bitcoin, made by <a class="by" href="#about">Aaron Zhang</a>. Every idea comes as code you can run.</p>
+    </div>
+  </header>
+
+  <section id="books">
+    <h2>Books</h2>
+    <p class="intro">Every chapter is a notebook. Read it, run it, change a line and see what breaks.</p>
+    <div class="shelf">
+      <!-- To add a book: copy one <article class="book"> and point it at /<repo-name>/. -->
+      <article class="book">
+        <a class="cover" href="/bitcoin-from-scratch-interactive/"><img src="assets/bfs-cover.jpg" alt="Bitcoin from Scratch cover"></a>
+        <div>
+          <h3><a href="/bitcoin-from-scratch-interactive/">Bitcoin from Scratch</a></h3>
+          <p class="sub">Build your own Bitcoin chain, from a single byte to a working network. Standard library only, so you write every piece yourself.</p>
+          <div class="meta"><span class="badge">Runs in your browser</span><span class="badge plain">18 chapters</span><span class="badge plain">Beginner → intermediate</span></div>
+          <div class="actions">
+            <a class="btn primary" href="/bitcoin-from-scratch-interactive/">Start reading</a>
+            <a class="btn" href="https://github.com/aaron-recompile/bitcoin-from-scratch-interactive">Source</a>
+          </div>
+        </div>
+      </article>
+      <article class="book">
+        <a class="cover" href="/mastering-taproot-interactive/"><img src="assets/taproot-cover.jpg" alt="Mastering Taproot cover"></a>
+        <div>
+          <h3><a href="/mastering-taproot-interactive/">Mastering Taproot</a></h3>
+          <p class="sub">Taproot script engineering for developers: keys and addresses, P2SH, SegWit, then real Taproot contracts and script trees, verified on testnet.</p>
+          <div class="meta"><span class="badge">Local Python · testnet</span><span class="badge plain">8 chapters</span><span class="badge plain">Developers</span></div>
+          <div class="actions">
+            <a class="btn primary" href="/mastering-taproot-interactive/">Start reading</a>
+            <a class="btn" href="https://github.com/aaron-recompile/mastering-taproot">Source</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <h2>Booklets</h2>
+    <p class="intro">Short, single-idea guides.</p>
+    <div class="grid">
+      <div class="item"><div class="kind">Idea-book · playground</div>
+        <h3><a href="https://sighash.bitcoincoding.dev/">What a Signature Can See</a></h3>
+        <p>Sighash explained Feynman-style, with a playground where you flip the flags and watch what a signature commits to.</p>
+        <div class="where">sighash.bitcoincoding.dev</div></div>
+      <div class="item"><div class="kind">Field guide</div>
+        <h3><a href="https://github.com/aaron-recompile/grammar-of-extensibility">The Grammar of Extensibility</a></h3>
+        <p>Bitcoin's reserved upgrade slots at the byte level: which one CAT, CSFS, CTV and APO plug into, on real signet bytes.</p>
+        <div class="where">github</div></div>
+      <div class="item"><div class="kind">History</div>
+        <h3><a href="https://github.com/aaron-recompile/bitcoin-data-embedding">How People Pushed Data into Bitcoin</a></h3>
+        <p>A reproducible engineering history of every technique for embedding data in Bitcoin, with testnet implementations.</p>
+        <div class="where">github · early draft</div></div>
+    </div>
+  </section>
+
+  <section id="research">
+    <h2>Research</h2>
+    <p class="intro">Covenants and signature binding, tested on Bitcoin Inquisition signet.</p>
+    <div class="grid">
+      <div class="item feature"><div class="kind">Paper · Jun 2026</div>
+        <h3><a href="https://delvingbitcoin.org/t/2659">Is CSFS+CAT already a general covenant primitive?</a></h3>
+        <p>Three on-chain demonstrations, and an observation for discussion.</p>
+        <div class="row"><a href="https://delvingbitcoin.org/t/2659">Delving Bitcoin</a><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7003839">SSRN</a></div></div>
+      <div class="item"><div class="kind">Experiment</div>
+        <h3><a href="https://github.com/aaron-recompile/binary-outcome-demo">Binary outcome on signet</a></h3>
+        <p>CAT + CSFS + CTV in one Taproot contract, settled by an oracle-signed price.</p></div>
+      <div class="item"><div class="kind">Experiment</div>
+        <h3><a href="https://github.com/aaron-recompile/rekey-ladder-theory">Rekey ladder theory</a></h3>
+        <p>Adversarial tests for CSFS rekey constructions: when binding holds and when it breaks.</p></div>
+      <div class="item"><div class="kind">Experiment</div>
+        <h3><a href="https://github.com/aaron-recompile/bitcoin-signature-binding">What a Schnorr signature verifies against</a></h3>
+        <p>CSFS, IK+CSFS and CHECKSIG side by side, with checked-in outputs.</p></div>
+    </div>
+  </section>
+
+  <section id="writing">
+    <h2>Writing</h2>
+    <p class="intro">Articles that take one mechanism apart at a time, collected and searchable.</p>
+    <div class="grid">
+      <div class="item feature"><div class="kind">Article index</div>
+        <h3><a href="https://archive.bitcoincoding.dev/">Recompile Archive</a></h3>
+        <p>Every technical article in one place: Taproot, Script, covenant opcodes on signet, grouped into series and searchable.</p>
+        <div class="row"><a href="https://archive.bitcoincoding.dev/articles">Articles</a><a href="https://archive.bitcoincoding.dev/series">Series</a></div></div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <h2>Tools</h2>
+    <p class="intro">The libraries and analyzers the books and research are built on.</p>
+    <div class="grid">
+      <div class="item"><div class="kind">Python library</div>
+        <h3><a href="https://github.com/aaron-recompile/btcaaron">btcaaron</a></h3>
+        <p>Pragmatic Taproot toolkit, with templates for Inquisition opcodes. The library behind Mastering Taproot.</p></div>
+      <div class="item"><div class="kind">Analyzer</div>
+        <h3><a href="https://github.com/aaron-recompile/rootscope">RootScope</a></h3>
+        <p>Taproot script-path analyzer: fetch the witness, rebuild the Merkle proof, check the address.</p></div>
+      <div class="item"><div class="kind">Dev tool</div>
+        <h3><a href="https://github.com/aaron-recompile/btcrun">btcrun</a></h3>
+        <p>Bitcoin chain manager and regtest dev tool.</p></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="about">
+      <img class="avatar" src="assets/aaron.jpg" alt="Aaron Zhang">
+      <div>
+        <b>Aaron Zhang</b>
+        <p class="line">Author of <a href="/mastering-taproot-interactive/">Mastering Taproot</a> and <a href="/bitcoin-from-scratch-interactive/">Bitcoin from Scratch</a>.</p>
+        <p class="line">Bitcoin Developer, Educator and Investor.</p>
+        <blockquote>I rebuild Bitcoin piece by piece until I understand it. Everything here is what that work leaves behind.</blockquote>
+        <div class="icons">
+          <a href="https://github.com/aaron-recompile" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+          <a href="https://medium.com/@aaron.recompile" aria-label="Medium" title="Medium"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 12a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Zm7.4 0c0 3.54-1.51 6.42-3.38 6.42S14.14 15.54 14.14 12s1.51-6.42 3.38-6.42 3.38 2.88 3.38 6.42ZM24 12c0 3.17-.53 5.75-1.19 5.75s-1.19-2.58-1.19-5.75.53-5.75 1.19-5.75S24 8.83 24 12Z"/></svg></a>
+          <a href="https://x.com/aaron_recompile" aria-label="X" title="X"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>© Aaron Zhang · bitcoincoding.dev</span><a href="https://github.com/aaron-recompile">github.com/aaron-recompile</a></footer>
+</div>
+</body>
+</html>
