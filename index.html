@@ -123,6 +123,12 @@
   .item .row a.onchain { border: 0; font: 700 12.5px/1 "SF Mono", Menlo, monospace; color: #1f7a4d; background: #e3f3ea; padding: 4px 9px; border-radius: 999px; margin-left: auto; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .item .row a.onchain { color: #7ddba8; background: #173326; } }
   .item .row { align-items: center; }
+  .series { border: 1px solid var(--line); border-radius: 16px; padding: 20px; background: color-mix(in srgb, var(--accent-soft) 30%, transparent); }
+  .series-head { margin-bottom: 16px; }
+  .series-head h3 { font: 700 22px/1.25 Georgia, "Times New Roman", serif; margin: 0 0 4px; }
+  .series-head p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 720px; }
+  .series .kind { font: 700 11.5px/1 "SF Mono", Menlo, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .grid.single { margin-top: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
   .item.feature { grid-column: 1 / -1; border-left: 4px solid var(--accent); }
   .item.feature h3 { font: 700 21px/1.3 Georgia, "Times New Roman", serif; }
 
@@ -144,7 +150,7 @@
 <body>
 <nav><div class="wrap">
   <a class="site" href="#">bitcoincoding.dev</a>
-  <ul><li><a href="#books">Books</a></li><li><a href="#research">Research</a></li><li><a href="#writing">Writing</a></li><li><a href="#tools">Tools</a></li><li><a href="#about">About</a></li></ul>
+  <ul><li><a href="#books">Books</a></li><li><a href="#research">Research</a></li><li><a href="#experiments">Experiments</a></li><li><a href="#writing">Writing</a></li><li><a href="#tools">Tools</a></li><li><a href="#about">About</a></li></ul>
 </div></nav>
 
 <div class="wrap">
@@ -189,17 +195,24 @@
     </div>
 
     <h2>Booklets</h2>
-    <p class="intro">Small books that teach one mechanism end to end, Feynman-style, with the experiments behind them.</p>
-    <div class="grid">
-      <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><path d="M12 38 Q32 20 52 38 Q32 56 12 38Z"/><circle cx="32" cy="38" r="6"/><circle cx="32" cy="38" r="2" class="fill"/><path d="M14 14h8M26 14h8M38 14h8" /><circle cx="18" cy="14" r="2.2" class="fill"/><circle cx="42" cy="14" r="2.2" class="fill"/></g><text x="32" y="80" class="ct">SIGHASH</text></svg></div><div><div class="kind">Idea-book · playground</div>
-        <h3><a href="https://sighash.bitcoincoding.dev/">What a Signature Can See</a></h3>
-        <p>Sighash explained Feynman-style, with a playground where you flip the flags and watch what a signature commits to.</p>
-        <div class="where">sighash.bitcoincoding.dev</div></div></div>
-      <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><rect x="10" y="18" width="44" height="34" rx="2"/><path d="M10 29h44M10 41h44M24 18v34M38 18v34"/><rect x="38" y="29" width="16" height="12" class="fill"/></g><text x="32" y="80" class="ct">SLOTS</text></svg></div><div><div class="kind">Field guide</div>
-        <h3><a href="https://github.com/aaron-recompile/grammar-of-extensibility">The Grammar of Extensibility</a></h3>
-        <p>Bitcoin's reserved upgrade slots at the byte level: which one CAT, CSFS, CTV and APO plug into, on real signet bytes.</p>
-        <div class="where">github</div></div></div>
-      <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><rect x="12" y="14" width="38" height="44" rx="2"/><path d="M17 23h20M17 30h26M17 37h14M17 51h22"/><rect x="31" y="41" width="25" height="5" class="fill"/></g><text x="32" y="80" class="ct">DATA</text></svg></div><div><div class="kind">History</div>
+    <p class="intro">Frontier mechanisms made visible: small books, Feynman-style, with the experiments behind them.</p>
+    <div class="series">
+      <div class="series-head"><div class="kind">Series · two volumes</div>
+        <h3>Covenants from First Principles</h3>
+        <p>Hard mechanisms explained Feynman-style, from one question up: can a coin carry rules about where it goes next? Volume I asks what a signature can see. Volume II asks where Bitcoin can grow new rules.</p></div>
+      <div class="grid two">
+        <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><path d="M12 38 Q32 20 52 38 Q32 56 12 38Z"/><circle cx="32" cy="38" r="6"/><circle cx="32" cy="38" r="2" class="fill"/><path d="M14 14h8M26 14h8M38 14h8" /><circle cx="18" cy="14" r="2.2" class="fill"/><circle cx="42" cy="14" r="2.2" class="fill"/></g><text x="32" y="80" class="ct">SIGHASH</text></svg></div><div><div class="kind">Vol. I · Sight · playground</div>
+          <h3><a href="https://sighash.bitcoincoding.dev/">What a Signature Can See</a></h3>
+          <p>Sighash from the ground up, with a playground where you flip the flags and watch what a signature commits to.</p>
+          <div class="where">sighash.bitcoincoding.dev</div></div></div>
+        <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><rect x="10" y="18" width="44" height="34" rx="2"/><path d="M10 29h44M10 41h44M24 18v34M38 18v34"/><rect x="38" y="29" width="16" height="12" class="fill"/></g><text x="32" y="80" class="ct">SLOTS</text></svg></div><div><div class="kind">Vol. II · Slots · field guide</div>
+          <h3><a href="https://slots.bitcoincoding.dev/">The Grammar of Extensibility</a></h3>
+          <p>Bitcoin's reserved upgrade slots at the byte level: which one CAT, CSFS, CTV and APO plug into, on real signet bytes.</p>
+          <div class="where">slots.bitcoincoding.dev</div></div></div>
+      </div>
+    </div>
+    <div class="grid single">
+      <div class="item booklet"><div class="mini" aria-hidden="true"><svg viewBox="0 0 60 90"><rect x=".5" y=".5" width="59" height="89" rx="3" class="paper"/><rect x="0" y="0" width="5" height="90" class="spine"/><g class="g"><rect x="12" y="14" width="38" height="44" rx="2"/><path d="M17 23h20M17 30h26M17 37h14M17 51h22"/><rect x="31" y="41" width="25" height="5" class="fill"/></g><text x="32" y="80" class="ct">DATA</text></svg></div><div><div class="kind">History · standalone</div>
         <h3><a href="https://github.com/aaron-recompile/bitcoin-data-embedding">How People Pushed Data into Bitcoin</a></h3>
         <p>A reproducible engineering history of every technique for embedding data in Bitcoin, with testnet implementations.</p>
         <div class="where">github · early draft</div></div></div>
@@ -208,16 +221,20 @@
 
   <section id="research">
     <h2>Research</h2>
-    <p class="intro">Covenants and signature binding, tested on Bitcoin Inquisition signet.</p>
+    <p class="intro">Papers from research at Bitcoin's protocol frontier, with code and on-chain evidence.</p>
     <div class="grid">
       <div class="item feature"><div class="kind">Paper · Jun 2026</div>
         <h3><a href="https://delvingbitcoin.org/t/2659">Is CSFS+CAT already a general covenant primitive?</a></h3>
         <p>Three on-chain demonstrations, and an observation for discussion.</p>
         <div class="row"><a href="https://delvingbitcoin.org/t/2659">Delving Bitcoin</a><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7003839">SSRN</a></div></div>
     </div>
-    <p class="subhead">Experiments that take a published design and test it on chain: where the idea holds, and where it breaks.</p>
+  </section>
+
+  <section id="experiments">
+    <h2>Experiments</h2>
+    <p class="intro">Open problems posed by other builders, answered in working code.</p>
     <div class="grid two">
-      <div class="item exp"><div class="head"><div class="kind">Builds on Christian Decker's eltoo</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><rect x="3" y="8" width="12" height="12" rx="2"/><rect x="22" y="8" width="12" height="12" rx="2"/><rect x="41" y="8" width="12" height="12" rx="2" class="fill"/><path d="M15 14h7M34 14h7"/><path d="M47 20v14M36 34h22" transform="translate(-3 0)"/><path d="M36 34v10M44 34v10M52 34v10" transform="translate(-3 0)"/></svg></div>
+      <div class="item exp"><div class="head"><div class="kind">Builds on Christian Decker · eltoo</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><rect x="3" y="8" width="12" height="12" rx="2"/><rect x="22" y="8" width="12" height="12" rx="2"/><rect x="41" y="8" width="12" height="12" rx="2" class="fill"/><path d="M15 14h7M34 14h7"/><path d="M47 20v14M36 34h22" transform="translate(-3 0)"/><path d="M36 34v10M44 34v10M52 34v10" transform="translate(-3 0)"/></svg></div>
         <h3><a href="https://github.com/aaron-recompile/eltoo-apo-state-chain">Eltoo state chain with APO + CTV</a></h3>
         <p>A BIP-118 signer written from scratch, run as a three-state eltoo chain with CTV settlement. One APO signature spends two different coins without re-signing.</p>
         <div class="row"><a href="https://github.com/aaron-recompile/eltoo-apo-state-chain"><svg class="li" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a href="https://delvingbitcoin.org/t/2413"><svg class="li" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a><a class="onchain" href="https://mempool.space/signet/tx/13957f49d01aa21ed2aa28df7aa78f357d51a2a2fbfb434af05fdc75ad0ff9b7">✓ 6 tx on signet</a></div></div>
@@ -225,14 +242,14 @@
         <h3><a href="https://github.com/aaron-recompile/sighash-prevout-binding">Spend A only if B is co-spent</a></h3>
         <p>A new tapscript construction: one signature passes both CSFS and CHECKSIG, so the script can read sha_prevouts and demand a specific second UTXO. The input check a BitVM bridge connector needs.</p>
         <div class="row"><a href="https://github.com/aaron-recompile/sighash-prevout-binding"><svg class="li" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a href="https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29"><svg class="li" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a><a class="onchain" href="https://mempool.space/signet/tx/7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558">✓ 2 tx on signet</a></div></div>
-      <div class="item exp"><div class="head"><div class="kind">Builds on Jeremy Rubin's rekey ladder</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><path d="M16 4v48M40 4v48M16 12h24M16 24h24M16 48h24"/><path d="M16 36h9M31 38h9" class="red"/></svg></div>
+      <div class="item exp"><div class="head"><div class="kind">Builds on Jeremy Rubin · CSFS rekey ladder</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><path d="M16 4v48M40 4v48M16 12h24M16 24h24M16 48h24"/><path d="M16 36h9M31 38h9" class="red"/></svg></div>
         <h3><a href="https://github.com/aaron-recompile/rekey-ladder-theory">Rekey ladder theory</a></h3>
         <p>An implementation of Rubin and Rearden's CSFS rekey ladder, attacked in four stages: where joint state binding holds, and the exact condition that breaks it.</p>
         <div class="row"><a href="https://github.com/aaron-recompile/rekey-ladder-theory"><svg class="li" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a></div></div>
-      <div class="item exp"><div class="head"><div class="kind">Groundwork</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><path d="M4 30c4-10 7 6 11-2s5 4 8 0"/><path d="M24 28l10-16M24 28h10M24 28l10 16"/><rect x="35" y="6" width="17" height="11" rx="2"/><rect x="35" y="22.5" width="17" height="11" rx="2"/><rect x="35" y="39" width="17" height="11" rx="2" class="fill"/></svg></div>
-        <h3><a href="https://github.com/aaron-recompile/bitcoin-signature-binding">What a Schnorr signature verifies against</a></h3>
-        <p>The three ways tapscript checks a Schnorr signature (CSFS, IK+CSFS, CHECKSIG), compared side by side with reproducible outputs. The base the experiments above stand on.</p>
-        <div class="row"><a href="https://github.com/aaron-recompile/bitcoin-signature-binding"><svg class="li" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a></div></div>
+      <div class="item exp"><div class="head"><div class="kind">Answers Bob McElrath · Braidpool</div><svg class="glyph" viewBox="0 0 56 56" aria-hidden="true"><circle cx="7" cy="8" r="4"/><circle cx="7" cy="22" r="4"/><circle cx="7" cy="36" r="4"/><path d="M11 8l9 8M11 22h9M11 36l9-8"/><rect x="20" y="10" width="16" height="24" rx="2" class="fill"/><path d="M36 22h6M42 22l10-12M42 22h10M42 22l10 12"/><path d="M28 34v8M22 46h12" /></svg></div>
+        <h3><a href="https://github.com/aaron-recompile/braidpool-rca-covenant">Rolling coinbase aggregation</a></h3>
+        <p>An answer, on chain, to Bob McElrath's covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.</p>
+        <div class="row"><a href="https://github.com/aaron-recompile/braidpool-rca-covenant"><svg class="li" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a href="https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/2"><svg class="li" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a><a class="onchain" href="https://mempool.space/signet/tx/7669e2519776a6af8ac3317ba64324282d3c14188256c0ef64dac5500800de5a">✓ 6 tx on signet</a></div></div>
     </div>
   </section>
 
