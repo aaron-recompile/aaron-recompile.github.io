@@ -16,4 +16,27 @@
   <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_06_Building_Real_Taproot_Contracts.html</loc></url>
   <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_07_Taproot_Dual_Leaf_Script_Tree.html</loc></url>
   <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_08_Four_Leaf_Taproot_Script_Tree.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch00-prologue/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/running-the-code/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch01-bytes-hash-commitment/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch02-finite-field-ecc-pubkey/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch03-signatures-ecdsa/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch04-hash-chain/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch05-proof-of-work/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch06-transactions-doublespend/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch07-blocks-consensus/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch08-incentives-issuance/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch09-forks-upgrades/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch10-fees-difficulty/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch11-merkle-tree/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch12-mempool-fees-confirmations/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch13-secp256k1/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch14-script-vm/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch15-wallet-hd-keys/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch16-hardware-signer/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch17-docker-network/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/ch18-script-safety-limits/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/appendix-a-crypto-map/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/appendix-b-quantum/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/book/appendix-c-checksig-csfs/</loc></url>
 </urlset>

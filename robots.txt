@@ -17,4 +17,3 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://bitcoincoding.dev/sitemap.xml
-Sitemap: https://bitcoincoding.dev/bitcoin-from-scratch-interactive/sitemap.xml

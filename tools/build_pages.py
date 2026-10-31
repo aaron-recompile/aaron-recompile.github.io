@@ -494,10 +494,39 @@ TAPROOT_CHAPTERS = [
     "Chapter_07_Taproot_Dual_Leaf_Script_Tree", "Chapter_08_Four_Leaf_Taproot_Script_Tree"]
 
 
+# The book's own MyST sitemap points at localhost, so its pages are listed here.
+BFS_PAGES = [
+    "/book/ch00-prologue",
+    "/running-the-code",
+    "/book/ch01-bytes-hash-commitment",
+    "/book/ch02-finite-field-ecc-pubkey",
+    "/book/ch03-signatures-ecdsa",
+    "/book/ch04-hash-chain",
+    "/book/ch05-proof-of-work",
+    "/book/ch06-transactions-doublespend",
+    "/book/ch07-blocks-consensus",
+    "/book/ch08-incentives-issuance",
+    "/book/ch09-forks-upgrades",
+    "/book/ch10-fees-difficulty",
+    "/book/ch11-merkle-tree",
+    "/book/ch12-mempool-fees-confirmations",
+    "/book/ch13-secp256k1",
+    "/book/ch14-script-vm",
+    "/book/ch15-wallet-hd-keys",
+    "/book/ch16-hardware-signer",
+    "/book/ch17-docker-network",
+    "/book/ch18-script-safety-limits",
+    "/book/appendix-a-crypto-map",
+    "/book/appendix-b-quantum",
+    "/book/appendix-c-checksig-csfs",
+]
+
+
 def build_sitemap():
     urls = [SITE + "/"] + [f"{SITE}/{x['slug']}/" for x in [PAPER] + EXPERIMENTS]
     urls += [f"{SITE}/mastering-taproot-interactive/", f"{SITE}/bitcoin-from-scratch-interactive/"]
     urls += [f"{SITE}/mastering-taproot-interactive/notebooks/en/{c}.html" for c in TAPROOT_CHAPTERS]
+    urls += [f"{SITE}/bitcoin-from-scratch-interactive{p}/" for p in BFS_PAGES]
     body = "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{body}</urlset>\n')
 
