@@ -327,6 +327,7 @@ def head(title, description, canonical, jsonld, extra=""):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@aaron_recompile">
 {extra}<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script data-goatcounter="https://bitcoincoding.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <link rel="stylesheet" href="/assets/page.css">
 <script type="application/ld+json">
 {json.dumps(jsonld, ensure_ascii=False, indent=1)}
