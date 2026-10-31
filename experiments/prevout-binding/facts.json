@@ -1,0 +1,49 @@
+{
+  "page": "https://bitcoincoding.dev/experiments/prevout-binding/",
+  "title": "Spend A only if B is co-spent",
+  "context": "Answers Robin Linus · BitVM bridges",
+  "author": "Aaron Zhang (Aaron Recompile)",
+  "date": "2026-04-28",
+  "network": "Bitcoin Inquisition signet",
+  "summary": "A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK. One signature passes both CSFS and CHECKSIG, so the script can read the real transaction.",
+  "transactions": [
+    {
+      "role": "Spend A + B",
+      "txid": "b7959a71b74b8bbed69d52c22a9b3b90af176391be2d0b7f33eb1a6473304606",
+      "block": 300156,
+      "explorer": "https://mempool.space/signet/tx/b7959a71b74b8bbed69d52c22a9b3b90af176391be2d0b7f33eb1a6473304606"
+    },
+    {
+      "role": "Spend A + B (second round)",
+      "txid": "7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558",
+      "block": 300156,
+      "explorer": "https://mempool.space/signet/tx/7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558"
+    }
+  ],
+  "verify": {
+    "repository": "https://github.com/aaron-recompile/sighash-prevout-binding",
+    "command": "python3 verify_onchain.py",
+    "result": "30/30 checks passed",
+    "needs": "no keys, no node"
+  },
+  "does_not_show": [
+    "A signet experiment, not a bridge implementation.",
+    "Assumes SIGHASH_DEFAULT, no annex and a script-path spend (the fixed 212-byte preimage layout).",
+    "Same-signature binding needs a participating signer; keyless covenants are out of scope."
+  ],
+  "sources": [
+    {
+      "title": "Delving Bitcoin · How CTV+CSFS improves BitVM bridges, the question (#28)",
+      "url": "https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/28"
+    },
+    {
+      "title": "Delving Bitcoin · the same thread, on-chain evidence (#29)",
+      "url": "https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29"
+    },
+    {
+      "title": "Delving Bitcoin · Taproot-native prevout binding via sighash preimage decomposition",
+      "url": "https://delvingbitcoin.org/t/taproot-native-prevout-binding-via-sighash-preimage-decomposition/2483"
+    }
+  ],
+  "negative_test": "A + C (C substituted for B): rejected by testmempoolaccept, never broadcast."
+}

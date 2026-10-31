@@ -1,0 +1,105 @@
+{
+  "page": "https://bitcoincoding.dev/experiments/eltoo-apo-ctv/",
+  "title": "APO from scratch: a BIP-118 signer and an eltoo state chain",
+  "context": "Builds on Christian Decker · eltoo",
+  "author": "Aaron Zhang (Aaron Recompile)",
+  "date": "2026-04-11",
+  "network": "Bitcoin Inquisition signet",
+  "summary": "Two steps. First the primitive: an independent BIP-118 (ANYPREVOUT) signer, written outside Bitcoin Core's test framework and cross-validated by Inquisition's consensus code, with an on-chain proof that one signature spends two coins. Then the construction: a three-round eltoo state chain built on it and settled with OP_CHECKTEMPLATEVERIFY.",
+  "transactions": [
+    {
+      "role": "Spend A (signed)",
+      "txid": "03c0577c1d47da32804d098187644d0eee18b448aded2f427cd02193c070f3a4",
+      "block": 298280,
+      "explorer": "https://mempool.space/signet/tx/03c0577c1d47da32804d098187644d0eee18b448aded2f427cd02193c070f3a4",
+      "note": "prevout 4b645108…:0",
+      "part": "Part 1 · The primitive"
+    },
+    {
+      "role": "Spend B (witness copied, not re-signed)",
+      "txid": "46091190c74d8fd4b39be67a2e945a19b021850e7f8d9e378f5eb11722ae1a43",
+      "block": 298280,
+      "explorer": "https://mempool.space/signet/tx/46091190c74d8fd4b39be67a2e945a19b021850e7f8d9e378f5eb11722ae1a43",
+      "note": "prevout 543c97f7…:0",
+      "part": "Part 1 · The primitive"
+    },
+    {
+      "role": "Fund → state v1",
+      "txid": "386dbb6aa23fcc35a69d34e3c0f760b185482467abc936196d3def19d54a9c41",
+      "block": 298059,
+      "explorer": "https://mempool.space/signet/tx/386dbb6aa23fcc35a69d34e3c0f760b185482467abc936196d3def19d54a9c41",
+      "note": "50,000 sats",
+      "part": "Part 2 · The construction"
+    },
+    {
+      "role": "APO update v1 → v2",
+      "txid": "096e31ccbd8f5460b2730ec4f757ee1b01acf9dde3e3b8cb55fbb534fe195601",
+      "block": 298280,
+      "explorer": "https://mempool.space/signet/tx/096e31ccbd8f5460b2730ec4f757ee1b01acf9dde3e3b8cb55fbb534fe195601",
+      "note": "47,000 sats",
+      "part": "Part 2 · The construction"
+    },
+    {
+      "role": "APO update v2 → v3",
+      "txid": "091309b73e299436ff12fceda7e54e28c6f1817fdf3405bca3343ad15198d7f6",
+      "block": 298280,
+      "explorer": "https://mempool.space/signet/tx/091309b73e299436ff12fceda7e54e28c6f1817fdf3405bca3343ad15198d7f6",
+      "note": "44,000 sats",
+      "part": "Part 2 · The construction"
+    },
+    {
+      "role": "CTV settlement of v3",
+      "txid": "13957f49d01aa21ed2aa28df7aa78f357d51a2a2fbfb434af05fdc75ad0ff9b7",
+      "block": 298280,
+      "explorer": "https://mempool.space/signet/tx/13957f49d01aa21ed2aa28df7aa78f357d51a2a2fbfb434af05fdc75ad0ff9b7",
+      "note": "16,400 / 14,350 / 10,250 sats",
+      "part": "Part 2 · The construction"
+    }
+  ],
+  "verify": {
+    "repository": "https://github.com/aaron-recompile/eltoo-apo-state-chain",
+    "command": "python3 verify_onchain.py",
+    "result": "37/37 checks passed",
+    "needs": "no keys, no node: it recomputes the BIP-118 digest for every APO signature"
+  },
+  "does_not_show": [
+    "No Lightning protocol stack: no BOLT messaging, two-node exchange or HTLC routing.",
+    "The CSV timeout leaf is committed in every state but was not exercised.",
+    "One demo key signs every update; no FROST or MuSig2 aggregation.",
+    "Updates run sequentially; this is the execution layer underneath a channel, not a channel implementation."
+  ],
+  "sources": [
+    {
+      "title": "BIP 118: SIGHASH_ANYPREVOUT for Taproot Scripts",
+      "url": "https://github.com/bitcoin/bips/blob/master/bip-0118.mediawiki"
+    },
+    {
+      "title": "ajtowns · CTV, APO, CAT activity on signet",
+      "url": "https://delvingbitcoin.org/t/ctv-apo-cat-activity-on-signet/1257"
+    }
+  ],
+  "discussion": [
+    {
+      "title": "Delving Bitcoin · BIP 118 signing from scratch + on-chain rebinding proof (Part 1)",
+      "url": "https://delvingbitcoin.org/t/2411"
+    },
+    {
+      "title": "Delving Bitcoin · Eltoo State Chain on Signet: Three Rounds, Six Transactions (Part 2), with a reply from Christian Decker",
+      "url": "https://delvingbitcoin.org/t/2413"
+    },
+    {
+      "title": "bitcoindev mailing list · Eltoo / LN-Symmetry on Inquisition Signet: BIP 118 + 3-Round State Chain, with replies from Greg Sanders and Sergio Demian Lerner",
+      "url": "https://mailing-list.bitcoindevs.xyz/bitcoindev/CAEmKuUHJEf8R0ZPa--Jm=e1ToT2-f1CUqp+dRLP=XZ+A3mLBzA@mail.gmail.com/"
+    }
+  ],
+  "code": [
+    {
+      "title": "BIP-118 signer · btcaaron/bip118.py",
+      "url": "https://github.com/aaron-recompile/btcaaron/blob/180935dc864c9a36dd725cf8f54a43d183c17b1a/btcaaron/bip118.py"
+    },
+    {
+      "title": "Tests: digest invariance and signing",
+      "url": "https://github.com/aaron-recompile/btcaaron/blob/180935dc864c9a36dd725cf8f54a43d183c17b1a/tests/test_bip118.py"
+    }
+  ]
+}

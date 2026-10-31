@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bitcoincoding.dev/</loc></url>
-  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/</loc></url>
+  <url><loc>https://bitcoincoding.dev/research/csfs-cat-covenant/</loc></url>
+  <url><loc>https://bitcoincoding.dev/experiments/eltoo-apo-ctv/</loc></url>
+  <url><loc>https://bitcoincoding.dev/experiments/prevout-binding/</loc></url>
+  <url><loc>https://bitcoincoding.dev/experiments/csfs-rekey-ladder/</loc></url>
+  <url><loc>https://bitcoincoding.dev/experiments/braidpool-rca/</loc></url>
   <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/</loc></url>
+  <url><loc>https://bitcoincoding.dev/bitcoin-from-scratch-interactive/</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_01_Private_Keys.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_02_Bitcoin_Script_Fundamentals.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_03_P2SH_Script_Engineering.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_04_Building_SegWit_Transactions.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_05_Taproot_The_Evolution.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_06_Building_Real_Taproot_Contracts.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_07_Taproot_Dual_Leaf_Script_Tree.html</loc></url>
+  <url><loc>https://bitcoincoding.dev/mastering-taproot-interactive/notebooks/en/Chapter_08_Four_Leaf_Taproot_Script_Tree.html</loc></url>
 </urlset>

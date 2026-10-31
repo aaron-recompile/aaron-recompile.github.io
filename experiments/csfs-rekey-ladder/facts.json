@@ -1,0 +1,49 @@
+{
+  "page": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/",
+  "title": "Rekey ladder theory",
+  "context": "Builds on Jeremy Rubin · CSFS rekey ladder",
+  "author": "Aaron Zhang (Aaron Recompile)",
+  "date": "2026-04-20",
+  "network": "Bitcoin Inquisition signet",
+  "summary": "An implementation of Jeremy Rubin and Rearden's CSFS rekey ladder, attacked in four stages to find where joint state binding holds and the exact condition that breaks it. Then the ladder on chain: a three-round eltoo state chain in two transactions, with only CSFS and CTV.",
+  "transactions": [
+    {
+      "role": "Fund the ladder + CTV output (101,000 sats)",
+      "txid": "92efc47554d25d74d9f567594d37375d8c8a1a2ea6bd1864600d5a49531fda34",
+      "block": 300000,
+      "explorer": "https://mempool.space/signet/tx/92efc47554d25d74d9f567594d37375d8c8a1a2ea6bd1864600d5a49531fda34"
+    },
+    {
+      "role": "Settlement of state 2",
+      "txid": "b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de",
+      "block": 300000,
+      "explorer": "https://mempool.space/signet/tx/b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de",
+      "note": "Alice 40,000 / Bob 35,000 / Carol 25,000"
+    }
+  ],
+  "verify": {
+    "repository": "https://github.com/aaron-recompile/rekey-ladder-theory",
+    "command": "python3 code/e1_naive_non_binding.py   # E1 to E4",
+    "result": "each stage prints its attack scenarios and pass/fail",
+    "needs": "Python 3.10+ and secp256k1"
+  },
+  "does_not_show": [
+    "The four stages model the verification predicate; they are not a script-interpreter or consensus-level proof.",
+    "No proof of adaptor-signature equivalence.",
+    "No economic or security quantification for production Lightning deployments."
+  ],
+  "sources": [
+    {
+      "title": "Jeremy Rubin and Rearden · CSFS + CTV rekey and ladder for LN-Symmetry (December 2024)",
+      "url": "https://rubin.io/bitcoin/2024/12/02/csfs-ctv-rekey-symmetry/"
+    },
+    {
+      "title": "Delving Bitcoin · Eltoo State Chain on Signet Again: Three Rounds, Two Transactions (CSFS + CTV)",
+      "url": "https://delvingbitcoin.org/t/2430"
+    },
+    {
+      "title": "On-chain ladder code · btcaaron examples/eltoo",
+      "url": "https://github.com/aaron-recompile/btcaaron/tree/main/examples/eltoo"
+    }
+  ]
+}

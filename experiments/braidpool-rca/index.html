@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rolling coinbase aggregation · bitcoincoding.dev</title>
+<meta name="description" content="An on-chain answer to Bob McElrath&#x27;s covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.">
+<meta name="author" content="Aaron Zhang">
+<link rel="canonical" href="https://bitcoincoding.dev/experiments/braidpool-rca/">
+<link rel="alternate" type="application/json" href="facts.json" title="Machine-readable facts for this page">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="bitcoincoding.dev">
+<meta property="og:title" content="Rolling coinbase aggregation">
+<meta property="og:description" content="An on-chain answer to Bob McElrath&#x27;s covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.">
+<meta property="og:url" content="https://bitcoincoding.dev/experiments/braidpool-rca/">
+<meta property="og:image" content="https://bitcoincoding.dev/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aaron_recompile">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "TechArticle",
+   "@id": "https://bitcoincoding.dev/experiments/braidpool-rca/#article",
+   "headline": "Rolling coinbase aggregation",
+   "description": "An on-chain answer to Bob McElrath's covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.",
+   "url": "https://bitcoincoding.dev/experiments/braidpool-rca/",
+   "datePublished": "2026-04-15",
+   "inLanguage": "en",
+   "author": {
+    "@type": "Person",
+    "@id": "https://bitcoincoding.dev/#aaron",
+    "name": "Aaron Zhang",
+    "alternateName": "Aaron Recompile",
+    "url": "https://bitcoincoding.dev/#about"
+   },
+   "publisher": {
+    "@id": "https://bitcoincoding.dev/#site"
+   },
+   "about": [
+    {
+     "@type": "Thing",
+     "name": "Bitcoin",
+     "sameAs": "https://www.wikidata.org/wiki/Q131723"
+    },
+    {
+     "@type": "Thing",
+     "name": "Taproot",
+     "sameAs": "https://www.wikidata.org/wiki/Q107377077"
+    },
+    {
+     "@type": "Thing",
+     "name": "Bitcoin Script",
+     "sameAs": "https://www.wikidata.org/wiki/Q96472816"
+    }
+   ],
+   "keywords": "Braidpool, mining pool, rolling coinbase aggregation, UHPO, SIGHASH_ANYPREVOUT, BIP 118, OP_CHECKTEMPLATEVERIFY, eltoo",
+   "isBasedOn": [
+    "https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370",
+    "https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/2",
+    "https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/4"
+   ],
+   "hasPart": {
+    "@id": "https://bitcoincoding.dev/experiments/braidpool-rca/#code"
+   },
+   "mainEntityOfPage": "https://bitcoincoding.dev/experiments/braidpool-rca/"
+  },
+  {
+   "@type": "SoftwareSourceCode",
+   "@id": "https://bitcoincoding.dev/experiments/braidpool-rca/#code",
+   "name": "braidpool-rca-covenant",
+   "codeRepository": "https://github.com/aaron-recompile/braidpool-rca-covenant",
+   "programmingLanguage": "Python",
+   "license": "https://opensource.org/licenses/MIT",
+   "author": {
+    "@id": "https://bitcoincoding.dev/#aaron"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "bitcoincoding.dev",
+     "item": "https://bitcoincoding.dev/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Experiments",
+     "item": "https://bitcoincoding.dev/#experiments"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Rolling coinbase aggregation",
+     "item": "https://bitcoincoding.dev/experiments/braidpool-rca/"
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="site" href="/">bitcoincoding.dev</a><ul><li><a href="/#books">Books</a></li><li><a href="/#research">Research</a></li><li><a href="/#experiments">Experiments</a></li><li><a href="/#writing">Writing</a></li><li><a href="/#tools">Tools</a></li><li><a href="/#about">About</a></li></ul></div></nav>
+<main class="wrap">
+
+<p class="crumb"><a href="/">bitcoincoding.dev</a> / <a href="/#experiments">Experiments</a></p>
+<header class="top"><div><div class="kind">Answers Bob McElrath · Braidpool</div><h1>Rolling coinbase aggregation</h1>
+<p class="lede">An answer, on chain, to Bob McElrath's covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.</p><div class="facts"><span class="chip">2026 · 04</span><span class="chip">Inquisition signet</span><span class="chip ok">✓ 6 tx confirmed</span><span class="chip ok">61/61 checks passed</span></div>
+<div class="actions"><a class="btn primary" href="https://github.com/aaron-recompile/braidpool-rca-covenant"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a class="btn" href="https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a></div></div>
+<svg class="big-glyph" viewBox="0 0 56 56" aria-hidden="true"><circle cx="7" cy="8" r="4"/><circle cx="7" cy="22" r="4"/><circle cx="7" cy="36" r="4"/><path d="M11 8l9 8M11 22h9M11 36l9-8"/><rect x="20" y="10" width="16" height="24" rx="2" class="fill"/><path d="M36 22h6M42 22l10-12M42 22h10M42 22l10 12"/><path d="M28 34v8M22 46h12" /></svg>
+</header>
+<section><h2>The question</h2><p>Braidpool, a decentralized mining pool, has to hold coinbase rewards across many blocks before paying miners. Bob McElrath proposed a FROST federation that signs two chained transactions: the Rolling Coinbase Aggregation (RCA), which folds each new coinbase into the pool, and the Unspent Hasher Payout Object (UHPO), which pays everyone in proportion to work.</p><p>He then asked covenant proposers for an alternative that removes custody, so that only the correct payouts can happen.</p></section>
+<section><h2>What was built</h2><ul class="points"><li>Each RCA state is a three-leaf Taproot tree: a CTV leaf locked to this period's payout, an APO leaf for the next state, and a CSV timeout for solo recovery.</li><li>Each round is a two-input transaction: the previous RCA spent through its APO leaf (sighash <code>0x41</code>), plus the new coinbase spent through its key path.</li><li>The pool grows 32,750 → 63,500 → 92,750 sats while the payout split moves from A 100% to A 50 / B 50 to A 45 / B 35 / C 20.</li><li>When an RCA is replaced, its payout leaf loses its only input, so only the latest UHPO can settle: 40,387 / 31,412 / 17,951 sats.</li></ul></section><section><h2>How it works</h2><pre><code>RCA vN  (P2TR, three leaves)
+  ctv_uhpo     &lt;template_hash&gt; OP_CHECKTEMPLATEVERIFY    # this period&#x27;s payout
+  apo_update   &lt;0x01 || xonly_pubkey&gt; OP_CHECKSIG         # next RCA replaces this one
+  csv_escape   &lt;2&gt; OP_CSV OP_DROP &lt;pk&gt; OP_CHECKSIG        # timeout fallback
+
+aggregation round:
+  input 0  RCA v(N-1)     script path, APO signature (0x41)
+  input 1  new coinbase   key path
+  output   RCA vN = sum of inputs - fee</code></pre><p class="callout">APO handles the input side (the next state can be signed without the previous txid); CTV handles the output side (each RCA commits to the current payout). Dynamic payouts come from a sequence of static commitments.</p></section><section><h2>On chain</h2><div class="tablewrap"><table><thead><tr><th>Step</th><th>Transaction</th><th>Block</th><th>Note</th></tr></thead><tbody><tr><td>Block #1 coinbase → RCA v1</td><td class="mono"><a href="https://mempool.space/signet/tx/7557c229f29771410307055fabf907e4263899c140ff1963a81868c2ea7f5f7c">7557c229…5f7c</a></td><td class="mono">299894</td><td>32,750 sats</td></tr><tr><td>Block #2 coinbase</td><td class="mono"><a href="https://mempool.space/signet/tx/600b9c7f990ce09b7bfc06406d9f9e8d75696f44b86069974abb81b5dc5bf063">600b9c7f…f063</a></td><td class="mono">299894</td><td>33,750 sats</td></tr><tr><td>Aggregation round 2 → RCA v2</td><td class="mono"><a href="https://mempool.space/signet/tx/094a8aa1d572ac76d5f012ce6cb31f9cb9f4e982e9e90604e96b551c07d5ea9f">094a8aa1…ea9f</a></td><td class="mono">299894</td><td>pool 63,500 sats</td></tr><tr><td>Block #3 coinbase</td><td class="mono"><a href="https://mempool.space/signet/tx/1bac796632961eb18f8e50db0b643862cf7c8f6923fe27068a29b760a3e1ea0c">1bac7966…ea0c</a></td><td class="mono">299894</td><td>32,250 sats</td></tr><tr><td>Aggregation round 3 → RCA v3</td><td class="mono"><a href="https://mempool.space/signet/tx/01a00ecba14dac6e60181f925bf2612dc9061d5791196a03270ccacfb4193206">01a00ecb…3206</a></td><td class="mono">299894</td><td>pool 92,750 sats</td></tr><tr><td>CTV settlement of v3</td><td class="mono"><a href="https://mempool.space/signet/tx/7669e2519776a6af8ac3317ba64324282d3c14188256c0ef64dac5500800de5a">7669e251…de5a</a></td><td class="mono">299894</td><td>40,387 / 31,412 / 17,951 sats</td></tr></tbody></table></div></section>
+<section><h2>Check it yourself</h2><p>The repository re-checks every claim on this page (no keys, no node).</p><pre class="term"><code>git clone https://github.com/aaron-recompile/braidpool-rca-covenant
+cd braidpool-rca-covenant
+python3 verify_onchain.py
+<span class="ok">61/61 checks passed</span></code></pre></section>
+<section><h2>What it does not show</h2><ul class="points"><li>No FROST federation, share accounting or Braidpool DAG.</li><li>One demo key signs everything; the coinbases are wallet-funded stand-ins without coinbase maturity.</li><li>The CSV leaf is committed but not spent; signing is sequential.</li><li>Signet scale: 10,000 sats stand for 1 BTC.</li></ul></section>
+
+<section class="sources"><h2>Sources</h2><ul class="points"><li><a href="https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370">Delving Bitcoin · Challenge: Covenants for Braidpool (Bob McElrath)</a></li><li><a href="https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/2">Delving Bitcoin · reply #2: the RCA tree, APO rebinding and the state chain</a></li><li><a href="https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/4">Delving Bitcoin · reply #4: dynamic coinbase aggregation with growing amounts</a></li></ul></section>
+<details class="record"><summary>Technical record · facts.json</summary><pre><code>{
+  &quot;page&quot;: &quot;https://bitcoincoding.dev/experiments/braidpool-rca/&quot;,
+  &quot;title&quot;: &quot;Rolling coinbase aggregation&quot;,
+  &quot;context&quot;: &quot;Answers Bob McElrath · Braidpool&quot;,
+  &quot;author&quot;: &quot;Aaron Zhang (Aaron Recompile)&quot;,
+  &quot;date&quot;: &quot;2026-04-15&quot;,
+  &quot;network&quot;: &quot;Bitcoin Inquisition signet&quot;,
+  &quot;summary&quot;: &quot;An answer, on chain, to Bob McElrath&#x27;s covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle.&quot;,
+  &quot;transactions&quot;: [
+    {
+      &quot;role&quot;: &quot;Block #1 coinbase → RCA v1&quot;,
+      &quot;txid&quot;: &quot;7557c229f29771410307055fabf907e4263899c140ff1963a81868c2ea7f5f7c&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/7557c229f29771410307055fabf907e4263899c140ff1963a81868c2ea7f5f7c&quot;,
+      &quot;note&quot;: &quot;32,750 sats&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Block #2 coinbase&quot;,
+      &quot;txid&quot;: &quot;600b9c7f990ce09b7bfc06406d9f9e8d75696f44b86069974abb81b5dc5bf063&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/600b9c7f990ce09b7bfc06406d9f9e8d75696f44b86069974abb81b5dc5bf063&quot;,
+      &quot;note&quot;: &quot;33,750 sats&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Aggregation round 2 → RCA v2&quot;,
+      &quot;txid&quot;: &quot;094a8aa1d572ac76d5f012ce6cb31f9cb9f4e982e9e90604e96b551c07d5ea9f&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/094a8aa1d572ac76d5f012ce6cb31f9cb9f4e982e9e90604e96b551c07d5ea9f&quot;,
+      &quot;note&quot;: &quot;pool 63,500 sats&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Block #3 coinbase&quot;,
+      &quot;txid&quot;: &quot;1bac796632961eb18f8e50db0b643862cf7c8f6923fe27068a29b760a3e1ea0c&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/1bac796632961eb18f8e50db0b643862cf7c8f6923fe27068a29b760a3e1ea0c&quot;,
+      &quot;note&quot;: &quot;32,250 sats&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Aggregation round 3 → RCA v3&quot;,
+      &quot;txid&quot;: &quot;01a00ecba14dac6e60181f925bf2612dc9061d5791196a03270ccacfb4193206&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/01a00ecba14dac6e60181f925bf2612dc9061d5791196a03270ccacfb4193206&quot;,
+      &quot;note&quot;: &quot;pool 92,750 sats&quot;
+    },
+    {
+      &quot;role&quot;: &quot;CTV settlement of v3&quot;,
+      &quot;txid&quot;: &quot;7669e2519776a6af8ac3317ba64324282d3c14188256c0ef64dac5500800de5a&quot;,
+      &quot;block&quot;: 299894,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/7669e2519776a6af8ac3317ba64324282d3c14188256c0ef64dac5500800de5a&quot;,
+      &quot;note&quot;: &quot;40,387 / 31,412 / 17,951 sats&quot;
+    }
+  ],
+  &quot;verify&quot;: {
+    &quot;repository&quot;: &quot;https://github.com/aaron-recompile/braidpool-rca-covenant&quot;,
+    &quot;command&quot;: &quot;python3 verify_onchain.py&quot;,
+    &quot;result&quot;: &quot;61/61 checks passed&quot;,
+    &quot;needs&quot;: &quot;no keys, no node&quot;
+  },
+  &quot;does_not_show&quot;: [
+    &quot;No FROST federation, share accounting or Braidpool DAG.&quot;,
+    &quot;One demo key signs everything; the coinbases are wallet-funded stand-ins without coinbase maturity.&quot;,
+    &quot;The CSV leaf is committed but not spent; signing is sequential.&quot;,
+    &quot;Signet scale: 10,000 sats stand for 1 BTC.&quot;
+  ],
+  &quot;sources&quot;: [
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · Challenge: Covenants for Braidpool (Bob McElrath)&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · reply #2: the RCA tree, APO rebinding and the state chain&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/2&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · reply #4: dynamic coinbase aggregation with growing amounts&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/challenge-covenants-for-braidpool/1370/4&quot;
+    }
+  ]
+}</code></pre></details>
+<footer><span>© Aaron Zhang · <a href="/">bitcoincoding.dev</a></span><a href="https://github.com/aaron-recompile">github.com/aaron-recompile</a></footer>
+</main>
+</body>
+</html>

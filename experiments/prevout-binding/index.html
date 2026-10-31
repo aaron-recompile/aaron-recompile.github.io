@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spend A only if B is co-spent · bitcoincoding.dev</title>
+<meta name="description" content="A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK, confirmed on Bitcoin Inquisition signet.">
+<meta name="author" content="Aaron Zhang">
+<link rel="canonical" href="https://bitcoincoding.dev/experiments/prevout-binding/">
+<link rel="alternate" type="application/json" href="facts.json" title="Machine-readable facts for this page">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="bitcoincoding.dev">
+<meta property="og:title" content="Spend A only if B is co-spent">
+<meta property="og:description" content="A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK, confirmed on Bitcoin Inquisition signet.">
+<meta property="og:url" content="https://bitcoincoding.dev/experiments/prevout-binding/">
+<meta property="og:image" content="https://bitcoincoding.dev/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aaron_recompile">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "TechArticle",
+   "@id": "https://bitcoincoding.dev/experiments/prevout-binding/#article",
+   "headline": "Spend A only if B is co-spent",
+   "description": "A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK, confirmed on Bitcoin Inquisition signet.",
+   "url": "https://bitcoincoding.dev/experiments/prevout-binding/",
+   "datePublished": "2026-04-28",
+   "inLanguage": "en",
+   "author": {
+    "@type": "Person",
+    "@id": "https://bitcoincoding.dev/#aaron",
+    "name": "Aaron Zhang",
+    "alternateName": "Aaron Recompile",
+    "url": "https://bitcoincoding.dev/#about"
+   },
+   "publisher": {
+    "@id": "https://bitcoincoding.dev/#site"
+   },
+   "about": [
+    {
+     "@type": "Thing",
+     "name": "Bitcoin",
+     "sameAs": "https://www.wikidata.org/wiki/Q131723"
+    },
+    {
+     "@type": "Thing",
+     "name": "Taproot",
+     "sameAs": "https://www.wikidata.org/wiki/Q107377077"
+    },
+    {
+     "@type": "Thing",
+     "name": "Bitcoin Script",
+     "sameAs": "https://www.wikidata.org/wiki/Q96472816"
+    },
+    {
+     "@type": "Thing",
+     "name": "Schnorr digital signature scheme",
+     "sameAs": "https://www.wikidata.org/wiki/Q1465057"
+    }
+   ],
+   "keywords": "BitVM, bridge connector, sha_prevouts, OP_CAT, BIP 347, OP_CHECKSIGFROMSTACK, BIP 348, covenant, sighash preimage",
+   "isBasedOn": [
+    "https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/28",
+    "https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29",
+    "https://delvingbitcoin.org/t/taproot-native-prevout-binding-via-sighash-preimage-decomposition/2483"
+   ],
+   "hasPart": {
+    "@id": "https://bitcoincoding.dev/experiments/prevout-binding/#code"
+   },
+   "mainEntityOfPage": "https://bitcoincoding.dev/experiments/prevout-binding/"
+  },
+  {
+   "@type": "SoftwareSourceCode",
+   "@id": "https://bitcoincoding.dev/experiments/prevout-binding/#code",
+   "name": "sighash-prevout-binding",
+   "codeRepository": "https://github.com/aaron-recompile/sighash-prevout-binding",
+   "programmingLanguage": "Python",
+   "license": "https://opensource.org/licenses/MIT",
+   "author": {
+    "@id": "https://bitcoincoding.dev/#aaron"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "bitcoincoding.dev",
+     "item": "https://bitcoincoding.dev/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Experiments",
+     "item": "https://bitcoincoding.dev/#experiments"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Spend A only if B is co-spent",
+     "item": "https://bitcoincoding.dev/experiments/prevout-binding/"
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="site" href="/">bitcoincoding.dev</a><ul><li><a href="/#books">Books</a></li><li><a href="/#research">Research</a></li><li><a href="/#experiments">Experiments</a></li><li><a href="/#writing">Writing</a></li><li><a href="/#tools">Tools</a></li><li><a href="/#about">About</a></li></ul></div></nav>
+<main class="wrap">
+
+<p class="crumb"><a href="/">bitcoincoding.dev</a> / <a href="/#experiments">Experiments</a></p>
+<header class="top"><div><div class="kind">Answers Robin Linus · BitVM bridges</div><h1>Spend A only if B is co-spent</h1>
+<p class="lede">A tapscript construction that binds a spend to a specific second UTXO through <code>sha_prevouts</code>, using only OP_CAT and OP_CHECKSIGFROMSTACK. One signature passes both CSFS and CHECKSIG, so the script can read the real transaction.</p><div class="facts"><span class="chip">2026 · 04</span><span class="chip">Inquisition signet</span><span class="chip ok">✓ 2 tx confirmed</span><span class="chip ok">30/30 checks passed</span></div>
+<div class="actions"><a class="btn primary" href="https://github.com/aaron-recompile/sighash-prevout-binding"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a class="btn" href="https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a></div></div>
+<svg class="big-glyph" viewBox="0 0 56 56" aria-hidden="true"><path d="M18 20h20" class="thick"/><circle cx="12" cy="20" r="8"/><circle cx="44" cy="20" r="8" class="fill"/><text x="12" y="23.5" class="gl">A</text><text x="44" y="23.5" class="gl inv">B</text><circle cx="44" cy="44" r="7" class="dash"/><path d="M39 39l10 10M49 39l-10 10"/></svg>
+</header>
+<section><h2>The question</h2><p>Robin Linus's thread <em>How CTV+CSFS improves BitVM bridges</em> needs a connector: an operator's step must consume one specific UTXO. CTV commits to a transaction's outputs, not its inputs, and ajtowns showed that the scriptSig-based workaround is open to substitution.</p><p>Can tapscript itself demand that a particular outpoint is spent in the same transaction?</p></section>
+<section><h2>What was built</h2><ul class="points"><li><strong>Same-signature binding.</strong> One Schnorr signature must pass OP_CHECKSIGFROMSTACK over a message the witness supplies and OP_CHECKSIG over the sighash the node computes. One signature cannot stand for two messages, so the witness copy of the sighash preimage has to be the real one.</li><li><strong>Preimage decomposition.</strong> The witness supplies the 212-byte preimage in chunks; the script inspects one chunk, then rebuilds the whole with OP_CAT.</li><li>A 196-byte leaf that hardcodes B's outpoint. The witness supplies A's outpoint, and <code>SHA256(A || B)</code> must equal <code>sha_prevouts</code> at preimage bytes 10–41.</li><li>Two confirmed spends of A with B. Swapping in a different coin C is rejected by <code>testmempoolaccept</code>: <em>Script failed an OP_EQUALVERIFY operation</em>.</li></ul></section><section><h2>How it works</h2><pre><code>witness (bottom -&gt; top): sig(64) post_c(56) post_b(57) post_a(57) pre(10) sha(32) a_outpoint(36)
+
+&lt;B_outpoint&gt; CAT SHA256 SWAP DUP ROT EQUALVERIFY   # sha == SHA256(a_outpoint || B)
+SWAP SIZE 10 EQUALVERIFY                            # pre is 10 bytes -&gt; sha sits at offset 10
+SWAP CAT SWAP CAT SWAP CAT SWAP CAT                 # pre||sha||post_a||post_b||post_c
+&lt;tag[0:32]&gt; &lt;tag[32:64]&gt; CAT SWAP CAT SHA256        # TapSighash(preimage)
+OVER SWAP &lt;pk&gt; CHECKSIGFROMSTACK VERIFY             # sig valid over witness preimage
+&lt;pk&gt; CHECKSIG                                       # same sig valid over real sighash</code></pre><p class="callout">If C replaces B, the real <code>sha_prevouts</code> is <code>SHA256(A || C)</code>. Supplying it fails the EQUALVERIFY; supplying <code>SHA256(A || B)</code> makes the witness preimage differ from the real one, so the same signature cannot pass both checks.</p></section><section><h2>On chain</h2><div class="tablewrap"><table><thead><tr><th>Step</th><th>Transaction</th><th>Block</th><th>Note</th></tr></thead><tbody><tr><td>Spend A + B</td><td class="mono"><a href="https://mempool.space/signet/tx/b7959a71b74b8bbed69d52c22a9b3b90af176391be2d0b7f33eb1a6473304606">b7959a71…4606</a></td><td class="mono">300156</td><td></td></tr><tr><td>Spend A + B (second round)</td><td class="mono"><a href="https://mempool.space/signet/tx/7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558">7311da6e…3558</a></td><td class="mono">300156</td><td></td></tr></tbody></table></div><p class="callout">A + C (C substituted for B): rejected by testmempoolaccept, never broadcast.</p></section>
+<section><h2>Check it yourself</h2><p>The repository re-checks every claim on this page (no keys, no node).</p><pre class="term"><code>git clone https://github.com/aaron-recompile/sighash-prevout-binding
+cd sighash-prevout-binding
+python3 verify_onchain.py
+<span class="ok">30/30 checks passed</span></code></pre></section>
+<section><h2>What it does not show</h2><ul class="points"><li>A signet experiment, not a bridge implementation.</li><li>Assumes SIGHASH_DEFAULT, no annex and a script-path spend (the fixed 212-byte preimage layout).</li><li>Same-signature binding needs a participating signer; keyless covenants are out of scope.</li></ul></section>
+
+<section class="sources"><h2>Sources</h2><ul class="points"><li><a href="https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/28">Delving Bitcoin · How CTV+CSFS improves BitVM bridges, the question (#28)</a></li><li><a href="https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29">Delving Bitcoin · the same thread, on-chain evidence (#29)</a></li><li><a href="https://delvingbitcoin.org/t/taproot-native-prevout-binding-via-sighash-preimage-decomposition/2483">Delving Bitcoin · Taproot-native prevout binding via sighash preimage decomposition</a></li></ul></section>
+<details class="record"><summary>Technical record · facts.json</summary><pre><code>{
+  &quot;page&quot;: &quot;https://bitcoincoding.dev/experiments/prevout-binding/&quot;,
+  &quot;title&quot;: &quot;Spend A only if B is co-spent&quot;,
+  &quot;context&quot;: &quot;Answers Robin Linus · BitVM bridges&quot;,
+  &quot;author&quot;: &quot;Aaron Zhang (Aaron Recompile)&quot;,
+  &quot;date&quot;: &quot;2026-04-28&quot;,
+  &quot;network&quot;: &quot;Bitcoin Inquisition signet&quot;,
+  &quot;summary&quot;: &quot;A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK. One signature passes both CSFS and CHECKSIG, so the script can read the real transaction.&quot;,
+  &quot;transactions&quot;: [
+    {
+      &quot;role&quot;: &quot;Spend A + B&quot;,
+      &quot;txid&quot;: &quot;b7959a71b74b8bbed69d52c22a9b3b90af176391be2d0b7f33eb1a6473304606&quot;,
+      &quot;block&quot;: 300156,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/b7959a71b74b8bbed69d52c22a9b3b90af176391be2d0b7f33eb1a6473304606&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Spend A + B (second round)&quot;,
+      &quot;txid&quot;: &quot;7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558&quot;,
+      &quot;block&quot;: 300156,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558&quot;
+    }
+  ],
+  &quot;verify&quot;: {
+    &quot;repository&quot;: &quot;https://github.com/aaron-recompile/sighash-prevout-binding&quot;,
+    &quot;command&quot;: &quot;python3 verify_onchain.py&quot;,
+    &quot;result&quot;: &quot;30/30 checks passed&quot;,
+    &quot;needs&quot;: &quot;no keys, no node&quot;
+  },
+  &quot;does_not_show&quot;: [
+    &quot;A signet experiment, not a bridge implementation.&quot;,
+    &quot;Assumes SIGHASH_DEFAULT, no annex and a script-path spend (the fixed 212-byte preimage layout).&quot;,
+    &quot;Same-signature binding needs a participating signer; keyless covenants are out of scope.&quot;
+  ],
+  &quot;sources&quot;: [
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · How CTV+CSFS improves BitVM bridges, the question (#28)&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/28&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · the same thread, on-chain evidence (#29)&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/how-ctv-csfs-improves-bitvm-bridges/1591/29&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · Taproot-native prevout binding via sighash preimage decomposition&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/taproot-native-prevout-binding-via-sighash-preimage-decomposition/2483&quot;
+    }
+  ],
+  &quot;negative_test&quot;: &quot;A + C (C substituted for B): rejected by testmempoolaccept, never broadcast.&quot;
+}</code></pre></details>
+<footer><span>© Aaron Zhang · <a href="/">bitcoincoding.dev</a></span><a href="https://github.com/aaron-recompile">github.com/aaron-recompile</a></footer>
+</main>
+</body>
+</html>

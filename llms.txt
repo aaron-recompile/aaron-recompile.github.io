@@ -1,0 +1,34 @@
+# bitcoincoding.dev
+
+> Learn Bitcoin by building it. Books, explainers, research and experiments by Aaron Zhang (Aaron Recompile), Bitcoin developer, educator and investor. Every idea comes as code you can run.
+
+Author: Aaron Zhang, also known as Aaron Recompile (GitHub: aaron-recompile). Author of Mastering Taproot and Bitcoin from Scratch.
+
+## Books
+- [Bitcoin from Scratch](https://bitcoincoding.dev/bitcoin-from-scratch-interactive/): build your own Bitcoin chain from a single byte to a working network, Python standard library only; every code cell runs in the browser. 18 chapters, beginner to intermediate.
+- [Mastering Taproot](https://bitcoincoding.dev/mastering-taproot-interactive/): Taproot script engineering for developers: keys and addresses, P2SH, SegWit, Taproot contracts and script trees, verified on testnet. 8 chapters.
+
+## Booklets: Covenants from First Principles
+- [What a Signature Can See](https://sighash.bitcoincoding.dev/) (Volume I): sighash from the ground up, with a playground that shows which transaction fields a signature commits to.
+- [The Grammar of Extensibility](https://slots.bitcoincoding.dev/) (Volume II): Bitcoin's reserved upgrade slots at the byte level and which one CAT, CSFS, CTV and APO plug into.
+
+## Research
+- [Capability Parity of CSFS+CAT with CTV and ANYPREVOUT for Common Covenant Patterns: On-Chain Evidence from Inquisition Signet](https://bitcoincoding.dev/research/csfs-cat-covenant/): With confirmed transactions on Bitcoin Inquisition signet, OP_CHECKSIGFROMSTACK plus OP_CAT reproduces the covenant capabilities of CTV and ANYPREVOUT for output binding, input binding and eltoo-style state replacement, for signer-participating spends. PDF: https://bitcoincoding.dev/research/csfs-cat-covenant/paper.pdf
+
+## Experiments (open problems posed by other builders, answered in code)
+- [APO from scratch: a BIP-118 signer and an eltoo state chain](https://bitcoincoding.dev/experiments/eltoo-apo-ctv/) (Builds on Christian Decker · eltoo): An independent BIP-118 (ANYPREVOUT) signer, written outside Bitcoin Core's test framework and cross-validated by Inquisition's consensus code, then used to run a three-round eltoo state chain settled with CTV. Code: https://github.com/aaron-recompile/eltoo-apo-state-chain
+- [Spend A only if B is co-spent](https://bitcoincoding.dev/experiments/prevout-binding/) (Answers Robin Linus · BitVM bridges): A tapscript construction that binds a spend to a specific second UTXO through sha_prevouts, using only OP_CAT and OP_CHECKSIGFROMSTACK, confirmed on Bitcoin Inquisition signet. Code: https://github.com/aaron-recompile/sighash-prevout-binding
+- [Rekey ladder theory](https://bitcoincoding.dev/experiments/csfs-rekey-ladder/) (Builds on Jeremy Rubin · CSFS rekey ladder): An implementation of Jeremy Rubin and Rearden's CSFS rekey ladder, attacked in four stages, plus a three-round eltoo state chain settled in two transactions with only CSFS and CTV. Code: https://github.com/aaron-recompile/rekey-ladder-theory
+- [Rolling coinbase aggregation](https://bitcoincoding.dev/experiments/braidpool-rca/) (Answers Bob McElrath · Braidpool): An on-chain answer to Bob McElrath's covenant challenge for Braidpool: each new coinbase joins the pool through a two-input APO update, and only the latest CTV payout can settle. Code: https://github.com/aaron-recompile/braidpool-rca-covenant
+
+## Writing
+- [Recompile Archive](https://archive.bitcoincoding.dev/): technical articles on Taproot, Script and covenant opcodes on signet, grouped into series.
+
+## Tools
+- [btcaaron](https://github.com/aaron-recompile/btcaaron): Python Taproot toolkit with templates for Bitcoin Inquisition opcodes.
+- [RootScope](https://github.com/aaron-recompile/rootscope): Taproot script-path analyzer.
+- [btcrun](https://github.com/aaron-recompile/btcrun): Bitcoin chain manager and regtest dev tool.
+
+## Machine-readable
+- Each research and experiment page has a facts.json next to it with transactions, verification commands and sources.
+- Sitemap: https://bitcoincoding.dev/sitemap.xml

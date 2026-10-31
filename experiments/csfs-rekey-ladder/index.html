@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rekey ladder theory · bitcoincoding.dev</title>
+<meta name="description" content="An implementation of Jeremy Rubin and Rearden&#x27;s CSFS rekey ladder, attacked in four stages, plus a three-round eltoo state chain settled in two transactions with only CSFS and CTV.">
+<meta name="author" content="Aaron Zhang">
+<link rel="canonical" href="https://bitcoincoding.dev/experiments/csfs-rekey-ladder/">
+<link rel="alternate" type="application/json" href="facts.json" title="Machine-readable facts for this page">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="bitcoincoding.dev">
+<meta property="og:title" content="Rekey ladder theory">
+<meta property="og:description" content="An implementation of Jeremy Rubin and Rearden&#x27;s CSFS rekey ladder, attacked in four stages, plus a three-round eltoo state chain settled in two transactions with only CSFS and CTV.">
+<meta property="og:url" content="https://bitcoincoding.dev/experiments/csfs-rekey-ladder/">
+<meta property="og:image" content="https://bitcoincoding.dev/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aaron_recompile">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "TechArticle",
+   "@id": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/#article",
+   "headline": "Rekey ladder theory",
+   "description": "An implementation of Jeremy Rubin and Rearden's CSFS rekey ladder, attacked in four stages, plus a three-round eltoo state chain settled in two transactions with only CSFS and CTV.",
+   "url": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/",
+   "datePublished": "2026-04-20",
+   "inLanguage": "en",
+   "author": {
+    "@type": "Person",
+    "@id": "https://bitcoincoding.dev/#aaron",
+    "name": "Aaron Zhang",
+    "alternateName": "Aaron Recompile",
+    "url": "https://bitcoincoding.dev/#about"
+   },
+   "publisher": {
+    "@id": "https://bitcoincoding.dev/#site"
+   },
+   "about": [
+    {
+     "@type": "Thing",
+     "name": "Bitcoin",
+     "sameAs": "https://www.wikidata.org/wiki/Q131723"
+    },
+    {
+     "@type": "Thing",
+     "name": "Taproot",
+     "sameAs": "https://www.wikidata.org/wiki/Q107377077"
+    },
+    {
+     "@type": "Thing",
+     "name": "Bitcoin Script",
+     "sameAs": "https://www.wikidata.org/wiki/Q96472816"
+    },
+    {
+     "@type": "Thing",
+     "name": "Schnorr digital signature scheme",
+     "sameAs": "https://www.wikidata.org/wiki/Q1465057"
+    }
+   ],
+   "keywords": "rekey, key ladder, OP_CHECKSIGFROMSTACK, BIP 348, OP_CHECKTEMPLATEVERIFY, LN-Symmetry, eltoo, state binding",
+   "isBasedOn": [
+    "https://rubin.io/bitcoin/2024/12/02/csfs-ctv-rekey-symmetry/",
+    "https://delvingbitcoin.org/t/2430",
+    "https://github.com/aaron-recompile/btcaaron/tree/main/examples/eltoo"
+   ],
+   "hasPart": {
+    "@id": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/#code"
+   },
+   "mainEntityOfPage": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/"
+  },
+  {
+   "@type": "SoftwareSourceCode",
+   "@id": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/#code",
+   "name": "rekey-ladder-theory",
+   "codeRepository": "https://github.com/aaron-recompile/rekey-ladder-theory",
+   "programmingLanguage": "Python",
+   "license": "https://opensource.org/licenses/MIT",
+   "author": {
+    "@id": "https://bitcoincoding.dev/#aaron"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "bitcoincoding.dev",
+     "item": "https://bitcoincoding.dev/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Experiments",
+     "item": "https://bitcoincoding.dev/#experiments"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Rekey ladder theory",
+     "item": "https://bitcoincoding.dev/experiments/csfs-rekey-ladder/"
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="site" href="/">bitcoincoding.dev</a><ul><li><a href="/#books">Books</a></li><li><a href="/#research">Research</a></li><li><a href="/#experiments">Experiments</a></li><li><a href="/#writing">Writing</a></li><li><a href="/#tools">Tools</a></li><li><a href="/#about">About</a></li></ul></div></nav>
+<main class="wrap">
+
+<p class="crumb"><a href="/">bitcoincoding.dev</a> / <a href="/#experiments">Experiments</a></p>
+<header class="top"><div><div class="kind">Builds on Jeremy Rubin · CSFS rekey ladder</div><h1>Rekey ladder theory</h1>
+<p class="lede">An implementation of Jeremy Rubin and Rearden's CSFS rekey ladder, attacked in four stages to find where joint state binding holds and the exact condition that breaks it. Then the ladder on chain: a three-round eltoo state chain in two transactions, with only CSFS and CTV.</p><div class="facts"><span class="chip">2026 · 04</span><span class="chip">Inquisition signet</span><span class="chip ok">✓ 2 tx confirmed</span></div>
+<div class="actions"><a class="btn primary" href="https://github.com/aaron-recompile/rekey-ladder-theory"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Code</a><a class="btn" href="https://delvingbitcoin.org/t/2430"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Delving Bitcoin</a></div></div>
+<svg class="big-glyph" viewBox="0 0 56 56" aria-hidden="true"><path d="M16 4v48M40 4v48M16 12h24M16 24h24M16 48h24"/><path d="M16 36h9M31 38h9" class="red"/></svg>
+</header>
+<section><h2>The question</h2><p>In December 2024 Jeremy Rubin and Rearden described how CSFS plus CTV could support LN-Symmetry through re-keying and laddering: a root key hands authority to per-state keys, and each hop signs the next.</p><p>CSFS only answers whether a signature is valid for a message and a key. Does a construction built from several such checks actually bind a whole state package, or can valid pieces from different states be recombined?</p></section>
+<section><h2>What was built</h2><ul class="points"><li><strong>E1</strong>, two independent CSFS checks: mixed packages from different states still pass. Pairwise validity is not joint binding.</li><li><strong>E2</strong>, a unique rekey per state: recombination fails, and comes back as soon as a rekey is reused.</li><li><strong>E3</strong>, a minimal key ladder: authorization holds hop by hop, and role confusion appears if the role gate is removed.</li><li><strong>E4</strong>, state-indexed key derivation: <code>key_n</code> verifies only <code>state_n</code>, unless the derivation leaves out the state index.</li><li>On chain, a 42-byte tapscript of four CSFS checks and one CTV carries a three-hop ladder and settles a three-round state chain in two transactions.</li></ul></section><section><h2>How it works</h2><pre><code>&lt;K_pub&gt; CSFS VERIFY  CSFS VERIFY  CSFS VERIFY  CSFS VERIFY  CTV      # 42-byte leaf
+
+K    signs R_0&#x27;s pubkey          # rekey: the root hands authority to state 0
+R_0  signs R_1&#x27;s pubkey          # ladder hop
+R_1  signs R_2&#x27;s pubkey          # ladder hop
+R_2  signs the CTV template hash # the final state is tied to its outputs
+CTV  enforces the 3-output payout</code></pre><p class="callout">All delegation happens off chain; only the final spend goes on chain, carrying the whole ladder proof in a 12-element, 512-byte witness.</p></section><section><h2>On chain</h2><div class="tablewrap"><table><thead><tr><th>Step</th><th>Transaction</th><th>Block</th><th>Note</th></tr></thead><tbody><tr><td>Fund the ladder + CTV output (101,000 sats)</td><td class="mono"><a href="https://mempool.space/signet/tx/92efc47554d25d74d9f567594d37375d8c8a1a2ea6bd1864600d5a49531fda34">92efc475…da34</a></td><td class="mono">300000</td><td></td></tr><tr><td>Settlement of state 2</td><td class="mono"><a href="https://mempool.space/signet/tx/b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de">b96324da…82de</a></td><td class="mono">300000</td><td>Alice 40,000 / Bob 35,000 / Carol 25,000</td></tr></tbody></table></div></section>
+<section><h2>Check it yourself</h2><p>The repository re-checks every claim on this page (Python 3.10+ and secp256k1).</p><pre class="term"><code>git clone https://github.com/aaron-recompile/rekey-ladder-theory
+cd rekey-ladder-theory
+python3 code/e1_naive_non_binding.py   # E1 to E4
+<span class="ok">each stage prints its attack scenarios and pass/fail</span></code></pre></section>
+<section><h2>What it does not show</h2><ul class="points"><li>The four stages model the verification predicate; they are not a script-interpreter or consensus-level proof.</li><li>No proof of adaptor-signature equivalence.</li><li>No economic or security quantification for production Lightning deployments.</li></ul></section>
+
+<section class="sources"><h2>Sources</h2><ul class="points"><li><a href="https://rubin.io/bitcoin/2024/12/02/csfs-ctv-rekey-symmetry/">Jeremy Rubin and Rearden · CSFS + CTV rekey and ladder for LN-Symmetry (December 2024)</a></li><li><a href="https://delvingbitcoin.org/t/2430">Delving Bitcoin · Eltoo State Chain on Signet Again: Three Rounds, Two Transactions (CSFS + CTV)</a></li><li><a href="https://github.com/aaron-recompile/btcaaron/tree/main/examples/eltoo">On-chain ladder code · btcaaron examples/eltoo</a></li></ul></section>
+<details class="record"><summary>Technical record · facts.json</summary><pre><code>{
+  &quot;page&quot;: &quot;https://bitcoincoding.dev/experiments/csfs-rekey-ladder/&quot;,
+  &quot;title&quot;: &quot;Rekey ladder theory&quot;,
+  &quot;context&quot;: &quot;Builds on Jeremy Rubin · CSFS rekey ladder&quot;,
+  &quot;author&quot;: &quot;Aaron Zhang (Aaron Recompile)&quot;,
+  &quot;date&quot;: &quot;2026-04-20&quot;,
+  &quot;network&quot;: &quot;Bitcoin Inquisition signet&quot;,
+  &quot;summary&quot;: &quot;An implementation of Jeremy Rubin and Rearden&#x27;s CSFS rekey ladder, attacked in four stages to find where joint state binding holds and the exact condition that breaks it. Then the ladder on chain: a three-round eltoo state chain in two transactions, with only CSFS and CTV.&quot;,
+  &quot;transactions&quot;: [
+    {
+      &quot;role&quot;: &quot;Fund the ladder + CTV output (101,000 sats)&quot;,
+      &quot;txid&quot;: &quot;92efc47554d25d74d9f567594d37375d8c8a1a2ea6bd1864600d5a49531fda34&quot;,
+      &quot;block&quot;: 300000,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/92efc47554d25d74d9f567594d37375d8c8a1a2ea6bd1864600d5a49531fda34&quot;
+    },
+    {
+      &quot;role&quot;: &quot;Settlement of state 2&quot;,
+      &quot;txid&quot;: &quot;b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de&quot;,
+      &quot;block&quot;: 300000,
+      &quot;explorer&quot;: &quot;https://mempool.space/signet/tx/b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de&quot;,
+      &quot;note&quot;: &quot;Alice 40,000 / Bob 35,000 / Carol 25,000&quot;
+    }
+  ],
+  &quot;verify&quot;: {
+    &quot;repository&quot;: &quot;https://github.com/aaron-recompile/rekey-ladder-theory&quot;,
+    &quot;command&quot;: &quot;python3 code/e1_naive_non_binding.py   # E1 to E4&quot;,
+    &quot;result&quot;: &quot;each stage prints its attack scenarios and pass/fail&quot;,
+    &quot;needs&quot;: &quot;Python 3.10+ and secp256k1&quot;
+  },
+  &quot;does_not_show&quot;: [
+    &quot;The four stages model the verification predicate; they are not a script-interpreter or consensus-level proof.&quot;,
+    &quot;No proof of adaptor-signature equivalence.&quot;,
+    &quot;No economic or security quantification for production Lightning deployments.&quot;
+  ],
+  &quot;sources&quot;: [
+    {
+      &quot;title&quot;: &quot;Jeremy Rubin and Rearden · CSFS + CTV rekey and ladder for LN-Symmetry (December 2024)&quot;,
+      &quot;url&quot;: &quot;https://rubin.io/bitcoin/2024/12/02/csfs-ctv-rekey-symmetry/&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Delving Bitcoin · Eltoo State Chain on Signet Again: Three Rounds, Two Transactions (CSFS + CTV)&quot;,
+      &quot;url&quot;: &quot;https://delvingbitcoin.org/t/2430&quot;
+    },
+    {
+      &quot;title&quot;: &quot;On-chain ladder code · btcaaron examples/eltoo&quot;,
+      &quot;url&quot;: &quot;https://github.com/aaron-recompile/btcaaron/tree/main/examples/eltoo&quot;
+    }
+  ]
+}</code></pre></details>
+<footer><span>© Aaron Zhang · <a href="/">bitcoincoding.dev</a></span><a href="https://github.com/aaron-recompile">github.com/aaron-recompile</a></footer>
+</main>
+</body>
+</html>

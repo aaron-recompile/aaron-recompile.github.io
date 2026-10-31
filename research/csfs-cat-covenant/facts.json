@@ -1,0 +1,56 @@
+{
+  "page": "https://bitcoincoding.dev/research/csfs-cat-covenant/",
+  "title": "Capability Parity of CSFS+CAT with CTV and ANYPREVOUT for Common Covenant Patterns: On-Chain Evidence from Inquisition Signet",
+  "short_title": "Is CSFS+CAT already a general covenant primitive?",
+  "author": "Aaron Zhang (Aaron Recompile)",
+  "orcid": "https://orcid.org/0009-0001-1599-092X",
+  "date": "2026-06-25",
+  "pages": 29,
+  "pdf": "https://bitcoincoding.dev/research/csfs-cat-covenant/paper.pdf",
+  "ssrn": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7003839",
+  "discussion": "https://delvingbitcoin.org/t/2659",
+  "reproduction": "https://github.com/aaron-recompile/btcaaron/tree/main/examples/csfs_cat_covenant_parity",
+  "keywords": [
+    "Bitcoin covenants",
+    "OP_CAT",
+    "OP_CHECKSIGFROMSTACK",
+    "Tapscript",
+    "sighash preimage introspection",
+    "OP_CHECKTEMPLATEVERIFY",
+    "ANYPREVOUT",
+    "eltoo",
+    "Bitcoin Inquisition signet"
+  ],
+  "abstract": [
+    "We show, with confirmed on-chain transactions on Bitcoin Inquisition signet, that the combination of OP_CHECKSIGFROMSTACK (BIP 348) and OP_CAT (BIP 347) reproduces the covenant capabilities of OP_CHECKTEMPLATEVERIFY (BIP 119) and BIP 118 ANYPREVOUT for three common patterns: output binding and input binding, built directly from CSFS+CAT, and the eltoo state-replacement pattern, realized through a CSFS delegation ladder with CTV settlement. The claim covers spends where the spending signer participates.",
+    "The approach rests on two techniques. Same-signature binding: one Schnorr signature must satisfy both OP_CHECKSIG against the node-computed sighash and OP_CHECKSIGFROMSTACK against a witness-provided preimage, which forces the witness preimage to be byte-identical to the real one. Preimage decomposition: OP_CAT, OP_SIZE and witness padding emulate the disabled OP_SUBSTR, so Script can extract and verify any field of the preimage. Together they recover sha_outputs, sha_prevouts and sha_amounts."
+  ],
+  "on_chain_demonstrations": [
+    {
+      "pattern": "Output binding",
+      "what": "the same output template as CTV: sha_outputs forced to a hardcoded value",
+      "txid": "2f345180bc6654353a247a50559c0be42153707b2ca29b621e57671ed41f37e6",
+      "block": 300379,
+      "explorer": "https://mempool.space/signet/tx/2f345180bc6654353a247a50559c0be42153707b2ca29b621e57671ed41f37e6"
+    },
+    {
+      "pattern": "Input binding",
+      "what": "beyond CTV's template: spend A only if B is co-spent",
+      "txid": "7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558",
+      "block": 300156,
+      "explorer": "https://mempool.space/signet/tx/7311da6e30886fab6594b633bcb97e4436d49f02ecc244d4bc7c59cb1ea83558"
+    },
+    {
+      "pattern": "Eltoo state replacement",
+      "what": "APO's use case through a CSFS + CTV delegation ladder: O(n) delegation, not O(1) rebinding",
+      "txid": "b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de",
+      "block": 300000,
+      "explorer": "https://mempool.space/signet/tx/b96324da612950339f564fbc88fe1d5c5751070e57bf796d32ee7171238382de"
+    }
+  ],
+  "does_not_claim": [
+    "Capability, not efficiency: these scripts and witnesses are larger, and the dedicated opcodes are far cheaper.",
+    "Signer-participating spends only; keyless covenants are out of scope.",
+    "Not an argument that CAT is harmless, and no position for or against activating any opcode."
+  ]
+}
